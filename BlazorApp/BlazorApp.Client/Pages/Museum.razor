@@ -1,5 +1,7 @@
 ﻿@page "/museum"
 
+@* https://learn.microsoft.com/en-us/aspnet/core/blazor/components/quickgrid?view=aspnetcore-9.0&tabs=visual-studio *@
+
 @rendermode InteractiveWebAssembly
 @* @rendermode InteractiveAuto *@
 
@@ -9,15 +11,19 @@
 
 <h1>@_title</h1>
 
-
+<QuickGrid Items="_items">
+    <PropertyColumn Property="@(p => p.DepartmentId)" Sortable="true" />
+    <PropertyColumn Property="@(p => p.DisplayName)" Sortable="true" />
+</QuickGrid>
 
 @code {
     private string _title = "Museum";
-    private Department[]? _result;
+    private IQueryable<Department>? _items;
 
     protected override async Task OnInitializedAsync()
     {
-        _result = await _departmentService.Get();
+        var result = await _departmentService.Get();
+        _items = result?.AsQueryable();
     }
 }
 
