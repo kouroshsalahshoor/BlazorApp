@@ -5,7 +5,7 @@
 @rendermode InteractiveWebAssembly
 @* @rendermode InteractiveAuto *@
 @attribute [StreamRendering]
-@inject IDepartmentService _departmentService
+@inject IMuseumService _museumService
 
 <PageTitle>@_title</PageTitle>
 
@@ -22,7 +22,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var result = await _departmentService.Get();
+        var result = await _museumService.GetDepartments();
         _items = result?.AsQueryable();
     }
 }

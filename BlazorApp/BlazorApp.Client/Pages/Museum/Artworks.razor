@@ -1,8 +1,8 @@
-﻿@page "/Museum/Artifacts"
+﻿@page "/Museum/Artworks"
 
 @rendermode InteractiveAuto
 @attribute [StreamRendering]
-@inject IDepartmentService _departmentService
+@inject IMuseumService _museumService
 
 <PageTitle>@_title</PageTitle>
 
@@ -28,18 +28,20 @@
 </div>
 
 @code {
-    private string _title = "Museum Artifacts";
+    private string _title = "Museum Artworks";
     private List<Department>? _departments;
     private int? _selectedDepartmentId = null;
+    private List<string>? _artworkIds;
 
     protected override async Task OnInitializedAsync()
     {
-        var result = await _departmentService.Get();
+        var result = await _museumService.GetDepartments();
         _departments = result?.ToList();
     }
 
-    private void OnValueChanged(int? value)
+    private async Task OnValueChanged(int? value)
     {
         _selectedDepartmentId = value;
+        _artworkIds = await _museumService.GetArtworks(_selectedDepartmentId ?? 0);
     }
 }
