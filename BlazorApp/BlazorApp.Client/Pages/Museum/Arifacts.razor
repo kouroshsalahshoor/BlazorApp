@@ -1,0 +1,45 @@
+﻿@page "/Museum/Artifacts"
+
+@rendermode InteractiveAuto
+@attribute [StreamRendering]
+@inject IDepartmentService _departmentService
+
+<PageTitle>@_title</PageTitle>
+
+<h1>@_title</h1>
+
+@* https://stackoverflow.com/questions/61756167/onchange-event-not-firing-blazor-inputselect *@
+
+<div class="row mb-2">
+    <div class="col-2"><strong>Department:</strong></div>
+    <div class="col-4">
+        <InputSelect TValue="int?"
+                     Value="@_selectedDepartmentId"
+                     ValueExpression="@(()=>_selectedDepartmentId)"
+                     ValueChanged="@((int? value) => OnValueChanged(value ))"
+                     class="form-select">
+            <option value="" disabled selected>Please Select a Department</option>
+            @foreach (var department in _departments ?? new List<Department>())
+            {
+                <option value="@department.DepartmentId" selected="@(department.DepartmentId == _selectedDepartmentId)">@department.DisplayName</option>
+            }
+        </InputSelect>
+    </div>
+</div>
+
+@code {
+    private string _title = "Museum Artifacts";
+    private List<Department>? _departments;
+    private int? _selectedDepartmentId = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await _departmentService.Get();
+        _departments = result?.ToList();
+    }
+
+    private void OnValueChanged(int? value)
+    {
+        _selectedDepartmentId = value;
+    }
+}

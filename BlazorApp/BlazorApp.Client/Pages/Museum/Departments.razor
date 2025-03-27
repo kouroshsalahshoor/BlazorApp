@@ -1,10 +1,10 @@
-﻿@page "/museum"
+﻿@page "/Museum/Departments"
 
 @* https://learn.microsoft.com/en-us/aspnet/core/blazor/components/quickgrid?view=aspnetcore-9.0&tabs=visual-studio *@
 
 @rendermode InteractiveWebAssembly
 @* @rendermode InteractiveAuto *@
-
+@attribute [StreamRendering]
 @inject IDepartmentService _departmentService
 
 <PageTitle>@_title</PageTitle>
@@ -17,7 +17,7 @@
 </QuickGrid>
 
 @code {
-    private string _title = "Museum";
+    private string _title = "Museum Departments";
     private IQueryable<Department>? _items;
 
     protected override async Task OnInitializedAsync()
