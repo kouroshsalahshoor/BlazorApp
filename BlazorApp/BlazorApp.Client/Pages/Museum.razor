@@ -1,0 +1,24 @@
+﻿@page "/museum"
+
+@rendermode InteractiveWebAssembly
+@* @rendermode InteractiveAuto *@
+
+@inject IDepartmentService _departmentService
+
+<PageTitle>@_title</PageTitle>
+
+<h1>@_title</h1>
+
+
+
+@code {
+    private string _title = "Museum";
+    private Department[]? _result;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _result = await _departmentService.Get();
+    }
+}
+
+
